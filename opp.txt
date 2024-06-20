@@ -1,0 +1,36 @@
+function CheckMasSkill()
+    if not SelectTypeMas then
+        return
+    end
+    if SelectTypeMas == "Devil Fruits" then
+        SMasWeapon = game:GetService("Players").LocalPlayer.Data.DevilFruit.Value
+    elseif SelectTypeMas == "Gun" then
+        SMasWeapon = ""
+        BPCH = {game.Players.LocalPlayer.Backpack, game.Players.LocalPlayer.Character}
+        for hi,ri in pairs(BPCH) do
+            for r, v in pairs(ri:GetChildren()) do
+                if v:IsA("Tool") and v.ToolTip == "Gun" then
+                    SMasWeapon = v.Name
+                end
+            end
+        end
+    end
+    if SMasWeapon and SMasWeapon ~= "" then
+        if game.Players.LocalPlayer.Backpack:FindFirstChild(SMasWeapon) or game.Players.LocalPlayer.Character:FindFirstChild(SMasWeapon) then
+            if game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:FindFirstChild(SMasWeapon) then
+                for r, v in next, game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills[SMasWeapon]:GetChildren() do
+                    if v:IsA("Frame") then
+                        if table.find(RealSkillSelected, v.Name) and v.Name ~= "Template" and v.Title.TextColor3 == Color3.new(1, 1, 1) and v.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v.Cooldown.Size == UDim2.new(1, 0, 1, -1) then
+                            return SMasWeapon, v.Name
+                        end
+                    end
+                end
+            else
+                EWeapon(SMasWeapon)
+            end
+        end
+    end
+    if SelectTypeMas == "Gun" then
+        return SMasWeapon, nil
+    end
+end
